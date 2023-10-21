@@ -1,26 +1,26 @@
 main {
     display: flex;
     justify-content: center;
-    align-items: center;
+}
+
+button {
+    border-radius: 5%;
+    font-size: 2em;
 }
 
 #container {
-    display: flex;
-    flex-direction: column;
-    height: 70vh;
-    width: 25vw;
-}
-.row {
-    display: flex;
-    flex: 1;
-    height: 10vh;
-
-}
-button {
-    flex: 1;
+    display: grid;
+    grid-template-rows: repeat(6, 100px);
+    grid-template-columns: repeat(4, 100px);
+    gap: 2px;
 }
 
 #screen {
     background-color: lightgray;
-    flex: 1;
+    grid-column: 1 / 5;
+    border-style: solid;
+}
+
+#zero {
+    grid-column: 1 / 3;
 }
