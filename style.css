@@ -19,6 +19,11 @@ button {
     background-color: lightgray;
     grid-column: 1 / 5;
     border-style: solid;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    font-size: 75px;
+    padding: 5px;
 }
 
 #zero {
