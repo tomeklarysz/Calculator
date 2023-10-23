@@ -7,10 +7,30 @@ let operator;
 let secondNumber = 0;
 let result;
 
+const updateDisplay = updatedNumber => {
+    displayNumber = updatedNumber;
+    display.textContent = displayNumber;
+};
+
+const clear = () => {
+    updateDisplay(0);
+    firstNumber = 0;
+    secondNumber = 0;
+    operator = undefined;
+    result = 0;
+};
+
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
 const multiply = (a, b) => a * b;
-const divide = (a, b) => a / b;
+const divide = (a, b) => {
+    if (b === 0) {
+        clear();
+        alert("you fool can't divide by 0, i'm erasing number on the screen");
+        return 0;
+    } else return a / b;
+};
+
 
 const operate = () => {
     firstNumber = +firstNumber;
@@ -29,19 +49,6 @@ const operate = () => {
             result = divide(firstNumber, secondNumber);
             break; 
     }
-};
-
-const clear = () => {
-    updateDisplay(0);
-    firstNumber = 0;
-    secondNumber = 0;
-    operator = undefined;
-    result = 0;
-};
-
-const updateDisplay = (updatedNumber) => {
-    displayNumber = updatedNumber;
-    display.textContent = displayNumber;
 };
 
 updateDisplay(displayNumber);
