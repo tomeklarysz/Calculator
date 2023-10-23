@@ -1,7 +1,7 @@
 const buttons = document.querySelectorAll('button');
 const display = document.querySelector('#screen');
 
-let displayNumber;
+let displayNumber = 0;
 let firstNumber = 0;
 let operator;
 let secondNumber = 0;
@@ -12,49 +12,63 @@ const subtract = (a, b) => a - b;
 const multiply = (a, b) => a * b;
 const divide = (a, b) => a / b;
 
-// const operate;
+const operate = () => {
+    firstNumber = +firstNumber;
+    secondNumber = +secondNumber;
+    switch (operator) {
+        case '+':
+            result = add(firstNumber, secondNumber);
+            break;
+        case '-':
+            result = subtract(firstNumber, secondNumber);
+            break;
+        case '*':
+            result = multiply(firstNumber, secondNumber);
+            break;
+        case '/':
+            result = divide(firstNumber, secondNumber);
+            break; 
+    }
+};
 
 function updateDisplay() {
     display.textContent = displayNumber;
 }
 
+updateDisplay();
+
 function clickButton() {
     for (let i = 0; i < buttons.length; i++) {
         buttons[i].addEventListener('click', function() {
             if (buttons[i].className === 'operand') { //zwykle liczby
-                console.log(buttons[i].className);
                 if (!operator) {
                     if (firstNumber === 0) firstNumber = buttons[i].textContent;
                     else firstNumber += buttons[i].textContent;
                     displayNumber = firstNumber;
                 } else {
-                    if (secondNumber === 0) secondNumber = buttons[i].textContent;
-                    // else if (result) 
+                    if (secondNumber === 0) secondNumber = buttons[i].textContent; 
                     else secondNumber += buttons[i].textContent;
                     displayNumber = secondNumber;
                 }
                 updateDisplay();
             } else if (buttons[i].className === 'operator') {
+                if (firstNumber !== 0 && secondNumber !== 0) {
+                    operate();
+                    if (operator) {
+                        displayNumber = result;
+                        updateDisplay();
+                        firstNumber = result;
+                        secondNumber = 0;
+                    }
+                }
                 operator = buttons[i].textContent;
+                
             } else if (buttons[i].id) {
                 switch (buttons[i].id) {
                     case 'result':
-                        firstNumber = +firstNumber;
-                        secondNumber = +secondNumber;
-                        switch (operator) {
-                            case '+':
-                                result = add(firstNumber, secondNumber);
-                                break;
-                            case '-':
-                                result = subtract(firstNumber, secondNumber);
-                                break;
-                            case '*':
-                                result = multiply(firstNumber, secondNumber);
-                                break;
-                            case '/':
-                                result = divide(firstNumber, secondNumber);
-                                break; 
-                        }
+                       // firstNumber = +firstNumber;
+                       // secondNumber = +secondNumber;
+                        operate();
                         displayNumber = result;
                         updateDisplay();
                         firstNumber = result;
@@ -79,6 +93,7 @@ function clickButton() {
                         firstNumber = 0;
                         secondNumber = 0;
                         operator = undefined;
+                        result = 0;
                         break;
                     default:
                         break;
@@ -89,6 +104,7 @@ function clickButton() {
             console.log(`operator: ${operator}`);
             console.log(`second: ${secondNumber}`);
             console.log(`result: ${result}`);
+            console.log("\n");
         });
     }
 }
