@@ -31,11 +31,20 @@ const operate = () => {
     }
 };
 
-function updateDisplay() {
-    display.textContent = displayNumber;
-}
+const clear = () => {
+    updateDisplay(0);
+    firstNumber = 0;
+    secondNumber = 0;
+    operator = undefined;
+    result = 0;
+};
 
-updateDisplay();
+const updateDisplay = (updatedNumber) => {
+    displayNumber = updatedNumber;
+    display.textContent = displayNumber;
+};
+
+updateDisplay(displayNumber);
 
 function clickButton() {
     for (let i = 0; i < buttons.length; i++) {
@@ -44,33 +53,25 @@ function clickButton() {
                 if (!operator) {
                     if (firstNumber === 0) firstNumber = buttons[i].textContent;
                     else firstNumber += buttons[i].textContent;
-                    displayNumber = firstNumber;
+                    updateDisplay(firstNumber);
                 } else {
                     if (secondNumber === 0) secondNumber = buttons[i].textContent; 
                     else secondNumber += buttons[i].textContent;
-                    displayNumber = secondNumber;
+                    updateDisplay(secondNumber);
                 }
-                updateDisplay();
             } else if (buttons[i].className === 'operator') {
-                if (firstNumber !== 0 && secondNumber !== 0) {
-                    operate();
-                    if (operator) {
-                        displayNumber = result;
-                        updateDisplay();
-                        firstNumber = result;
-                        secondNumber = 0;
-                    }
+                operate();
+                if (operator) {
+                    updateDisplay(result);
+                    firstNumber = result;
+                    secondNumber = 0;
                 }
                 operator = buttons[i].textContent;
-                
             } else if (buttons[i].id) {
                 switch (buttons[i].id) {
                     case 'result':
-                       // firstNumber = +firstNumber;
-                       // secondNumber = +secondNumber;
                         operate();
-                        displayNumber = result;
-                        updateDisplay();
+                        updateDisplay(result);
                         firstNumber = result;
                         secondNumber = 0;
                         operator = undefined;
@@ -78,27 +79,21 @@ function clickButton() {
                     case 'dot':
                         break;
                     case 'sign':
-                        displayNumber = 0 - displayNumber;
-                        updateDisplay();
+                        updateDisplay(0 - displayNumber);
                         if (displayNumber === firstNumber) firstNumber = 0 - firstNumber;
                         if (displayNumber === secondNumber) secondNumber = 0 - secondNumber;
                         break;
                     case 'percent':
-                        displayNumber /= 100;
-                        updateDisplay();
+                        updateDisplay(displayNumber / 100);
                         break;
                     case 'clear':
-                        displayNumber = 0;
-                        updateDisplay();
-                        firstNumber = 0;
-                        secondNumber = 0;
-                        operator = undefined;
-                        result = 0;
+                        clear();
                         break;
                     default:
                         break;
                 }
             }
+            // my amateur debugging :x
             console.log(`display: ${displayNumber}`);
             console.log(`first: ${firstNumber}`);
             console.log(`operator: ${operator}`);
